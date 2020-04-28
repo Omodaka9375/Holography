@@ -217,7 +217,7 @@
                 mediaStream = stream;
                 video.srcObject = stream;
                 video.classList.remove('hidden');
-                imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+                imageCapture = new ImageCapture(stream.getVideoTracks()[1]);
                 getCapabilities();
             }
 
@@ -241,36 +241,32 @@
             // display this with a canvas element.
             function grabFrame() {
 
-                if (!(imageCapture.track.readyState != 'live' || !imageCapture.track.enabled || imageCapture.track.muted)) {
-                    const imagePromise = imageCapture.grabFrame()
-                    .then((imageBitmap)=> {
-                        console.log('Grabbed frame:', imageBitmap);
-                        var canvas = document.createElement('canvas');
-                        var ctx = canvas.getContext('2d');
-                        
-                        canvas.width = imageBitmap.width;
-                        canvas.height = imageBitmap.height;
-                        canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
-                        textureOriginal = new THREE.Texture(canvas);
-                        textureOriginal.needsUpdate = true;
-                        
-                        // particles.material.uniforms.originalImage.value = texture;
+                imageCapture.grabFrame().then(function(imageBitmap) {
+                    console.log('Grabbed frame:', imageBitmap);
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    
+                    canvas.width = imageBitmap.width;
+                    canvas.height = imageBitmap.height;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                    textureOriginal = new THREE.Texture(canvas);
+                    textureOriginal.needsUpdate = true;
+                    
+                    // particles.material.uniforms.originalImage.value = texture;
 
-                        // Then we create particles and launch the segmentation
-                        video.hidden = true;
-                        // createParticles(textureOriginal);
-                        console.log('Loading and predicting:');
-                        loadAndPredict(textureOriginal.image);
-                        })
-                    .catch((error) => {
-                        print('Error:' + error)
-                    });
-                }
-                else {
-                    print('ImageCapture state track is not ready!')
-                }
-
+                    // Then we create particles and launch the segmentation
+                    video.hidden = true;
+                    // createParticles(textureOriginal);
+                    console.log('Loading and predicting:');
+                    loadAndPredict(textureOriginal.image);
+                    
+                   
+                }).catch(function(error) {
+                    console.log('grabFrame() error: ', error);
+                });
             }
+
+
             function init() {
 
                 camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
