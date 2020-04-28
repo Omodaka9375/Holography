@@ -247,9 +247,6 @@
             function grabFrame() {
 
             const mediaStreamTrack = mediaStream.getVideoTracks()[0];
-            const canvas = document.querySelector('canvas');
-            const video = document.createElement('video');
-
             video.autoplay = true;
             video.srcObject = mediaStream;
             video.onplay = () => {
@@ -261,7 +258,7 @@
                     
                 //     // particles.material.uniforms.originalImage.value = texture;
 
-                     // Then we create particles and launch the segmentation
+                 // Then we create particles and launch the segmentation
                  video.hidden = true;
                      // createParticles(textureOriginal);
                 console.log('Loading and predicting:');
