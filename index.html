@@ -241,7 +241,11 @@
             // display this with a canvas element.
             function grabFrame() {
 
-                imageCapture.grabFrame().then(function(imageBitmap) {
+                const promise = getPrevImagePromise();
+
+                if (!promise && !(imageCapture.track.readyState != 'live' || !imageCapture.track.enabled || imageCapture.track.muted)) {
+                    const imagePromise = imageCapture.grabFrame()
+                    then((imageBitmap)=> {
                     console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext('2d');
@@ -257,13 +261,19 @@
                     // Then we create particles and launch the segmentation
                     video.hidden = true;
                     // createParticles(textureOriginal);
+                    console.log('Loading and predicting:');
                     loadAndPredict(textureOriginal.image);
                     
-                   
-                }).catch(function(error) {
-                    console.log('grabFrame() error: ', error);
-                });
-            }
+                                })
+                    .then(() => {
+                        deletePrevImagePromise()
+                    })
+                    .catch((error) => {
+                        // 
+                    });
+
+                    setPrevImagePromise(imagePromise);
+                }
 
 
             function init() {
