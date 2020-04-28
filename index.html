@@ -260,13 +260,14 @@
                         video.hidden = true;
                         // createParticles(textureOriginal);
                         console.log('Loading and predicting:');
-                        loadAndPredict(textureOriginal.image);})
-                    .then(() => {
-
-                    })
+                        loadAndPredict(textureOriginal.image);
+                        })
                     .catch((error) => {
                         print('Error:' + error)
                     });
+                }
+                else {
+                    print('ImageCapture state track is not ready!')
                 }
 
             }
