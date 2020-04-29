@@ -237,12 +237,7 @@
             function getCapabilities() {
             imageCapture.getPhotoCapabilities().then(function(capabilities) {
                 console.log('Camera capabilities:', capabilities);
-                if (capabilities.imageWidth.max > 0) {
-                    zoomInput.min = capabilities.imageWidth.min;
-                    zoomInput.max = capabilities.imageWidth.max;
-                    zoomInput.value = capabilities.imageWidth
-                    zoomInput.classList.remove('hidden');
-                 }
+    
             }).catch(function(error) {
                 console.log('getCapabilities() error: ', error);
             });
