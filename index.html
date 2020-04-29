@@ -251,8 +251,7 @@
             // display this with a canvas element.
             function grabFrame() {
 
-   };
-                 imageCapture.grabFrame().then(function(imageBitmap) {
+                imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext('2d');
@@ -263,20 +262,18 @@
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     
-                //     // particles.material.uniforms.originalImage.value = texture;
+                    // particles.material.uniforms.originalImage.value = texture;
 
-                //     // Then we create particles and launch the segmentation
+                    // Then we create particles and launch the segmentation
                     video.hidden = true;
-                //     // createParticles(textureOriginal);
-                    console.log('Loading and predicting:');
+                    // createParticles(textureOriginal);
                     loadAndPredict(textureOriginal.image);
                     
                    
-                // }).catch(function(error) {
-                //     console.log('grabFrame() error: ', error);
-                // });
-
-
+                }).catch(function(error) {
+                    console.log('grabFrame() error: ', error);
+                });
+        
             }
 
 
