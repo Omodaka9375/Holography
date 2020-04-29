@@ -213,7 +213,7 @@
             constraints = {
                 video: {deviceId: videoSource ? {exact: videoSource} : undefined}
             };
-            navigator.mediaDevices.getUserMedia(constraints)
+            navigator.mediaDevices.getUserMedia(constraints, {video: true})
                 .then(gotStream)
                 .catch(error => {
                 console.log('getUserMedia error: ', error);
@@ -235,12 +235,12 @@
             function getCapabilities() {
             imageCapture.getPhotoCapabilities().then(function(capabilities) {
                 console.log('Camera capabilities:', capabilities);
-                // if (capabilities.zoom.max > 0) {
-                // zoomInput.min = capabilities.zoom.min;
-                // zoomInput.max = capabilities.zoom.max;
-                // zoomInput.value = capabilities.zoom.current;
-                // zoomInput.classList.remove('hidden');
-                // }
+                if (capabilities.imageWidth.max > 0) {
+                    zoomInput.min = capabilities.imageWidth.min;
+                    zoomInput.max = capabilities.imageWidth.max;
+                    zoomInput.value = capabilities.imageWidth
+                    zoomInput.classList.remove('hidden');
+                 }
             }).catch(function(error) {
                 console.log('getCapabilities() error: ', error);
             });
@@ -259,6 +259,7 @@
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                    canvas.classList.remove('hidden');
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     
