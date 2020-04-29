@@ -238,11 +238,7 @@
                 });
             }
 
-            function setZoom() {
-                imageCapture.setOptions({
-                    zoom: zoomInput.value
-                    });
-            }
+
             function init() {
 
                 container = document.createElement( 'div' );
@@ -275,7 +271,6 @@
 					uniforms: uniforms,
 					vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
 					fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
-                    //blending: THREE.AdditiveBlending,
 					depthTest: false,
 					transparent: true,
 					vertexColors: true
@@ -293,7 +288,7 @@
 				controller.addEventListener( 'select', onSelect );
                 scene.add( controller );
                 
-                var videoSource = 2.0;
+                var videoSource = 2;
                 constraints = {
                     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
                 };
