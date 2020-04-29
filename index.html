@@ -122,7 +122,6 @@
             var renderer, scene, camera, controls;
             var time = 0;
             var particles;
-            var texture;
             var shaderMaterialParticles;
             var textureSegmentation;
             var textureName = "im_7.jpg"; 
@@ -138,14 +137,6 @@
             var container;
             var controller;
             var net;
-            var grabFrameButton = document.querySelector('button#grabFrame');
-            var videoSelect = document.querySelector('select#videoSource');
-            var video = document.querySelector('video');
-            //grabFrameButton.onclick = grabFrame;
-           // videoSelect.onchange = getStream;
-          
-
-           // var net; // Model for inference
 
             async function loadModel(){
                 // Load the model
@@ -171,16 +162,18 @@
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
-           async function grabFrame() {
+           function grabFrame() {
                 imageCapture.track.enabled = true;
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
-                          
+                    var canvas = document.createElement('canvas');   
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
                     canvas.classList.remove('hidden');
+
                     textureOriginal = new THREE.Texture(canvas);
+
                     textureOriginal.needsUpdate = true;
 
                     // createParticles(textureOriginal);
@@ -193,7 +186,7 @@
             }
 
 
-          async function init() {
+          function init() {
 
                 container = document.createElement( 'div' );
 				document.body.appendChild( container );
@@ -272,7 +265,6 @@
 
             loadModel();
             init();
-           // getMedia();
 
             async function getMedia(constraints) {
                 let stream = null;
