@@ -178,12 +178,12 @@
 
             // Get a list of available media input (and output) devices
             // then get a MediaStream for the currently selected input device
-            navigator.mediaDevices.enumerateDevices()
+           /*  navigator.mediaDevices.enumerateDevices()
                 .then(gotDevices)
                 .catch(error => {
                     console.log('enumerateDevices() error: ', error);
                 })
-                .then(getStream);
+                .then(getStream); */
 
             // From the list of media devices available, set up the camera source <select>,
             // then get a video stream from the default camera source.
@@ -318,22 +318,24 @@
 
                 // grabFrame and show extracte silouhette
                 function onSelect() {
-                    // time = 0;
                     grabFrame();
-                    /*
-                    var geometry = new THREE.CylinderBufferGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
-                    var material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random() } );
-                    var mesh = new THREE.Mesh( geometry, material );
-                    mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
-                    mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
-                    scene.add( mesh );
-                    */
-                    
                 }
 
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
-				scene.add( controller );
+                scene.add( controller );
+                
+                var videoSource = 2;
+                constraints = {
+                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                };
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then(gotStream)
+                    .catch(error => {
+                    console.log('getUserMedia error: ', error);
+                });
+            }
+
                 
             }
 
