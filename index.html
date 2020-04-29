@@ -295,10 +295,6 @@ function init() {
                 var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
                 var cube = new THREE.Mesh( geometryC, materialC );
 
-                function onSelect() {
-
-                    onGrabFrameButtonClick();
-                }
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
 				scene.add( controller );             
@@ -308,6 +304,10 @@ function animate() {
     renderer.setAnimationLoop( render );
 }
 
+function onSelect() {
+
+onGrabFrameButtonClick();
+}
 
 function render() {
     time += 0.01;
