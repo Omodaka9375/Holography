@@ -245,6 +245,25 @@
                 getMedia(constraints);
             }
 
+            navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices)
+                .catch(error => {
+                    console.log('enumerateDevices() error: ', error);
+                });
+
+            // From the list of media devices available, set up the camera source <select>,
+            // then get a video stream from the default camera source.
+            function gotDevices(deviceInfos) {
+                for (var i = 0; i !== deviceInfos.length; ++i) {
+                    var deviceInfo = deviceInfos[i];
+                    console.log('Found media input or output device: ', deviceInfo);
+                    if (deviceInfo.kind === 'videoinput') {
+                    //option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
+                    console.log('Found media input or output device: ', deviceInfo);
+                    }
+                }
+            }
+
             loadModel();
             init();
            // getMedia();
