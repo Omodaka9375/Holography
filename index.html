@@ -222,8 +222,7 @@
                         mediaStream = stream;
                         video.srcObject = stream;
                         video.classList.remove('hidden');
-                        const track = stream.getVideoTracks()[0];
-                        imageCapture = new ImageCapture(track);
+                        imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
                         getCapabilities();
                      })
                     .catch(error => {
