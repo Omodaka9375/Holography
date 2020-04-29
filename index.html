@@ -164,7 +164,7 @@
             function gotStream(stream) {
                 console.log('getUserMedia() got stream: ', stream);
 
-                print('WATCH: ' + str(len(stream.getVideoTracks())))
+              //  print('WATCH: ' + str(len(stream.getVideoTracks())))
                 imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
  
             }
