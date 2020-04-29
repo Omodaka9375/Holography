@@ -12,6 +12,8 @@
         <!-- Load BodyPix -->
         <!--  <script src="./body-pix.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script>
+
+        </script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script> -->
 
 
@@ -27,13 +29,10 @@
             <video video autoplay playsinline class="hidden"></video>
             <div class="red-square">
                 <div class="overlay">
-                    <div class="select">
-                        <label for="videoSource">Choose your camera: </label><select id="videoSource"></select>
-                    </div>
-                    <input class="hidden" id="zoom" type="range" step="20">
-                    <p>When in AR mode, create an hologram by looking at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
-                    <div class="linkG"><p><b><a href="https://hologram-webxr.herokuapp.com/">https://hologram-webxr.herokuapp.com/</a></b></p></div>
-                    <span>by vihor</span>
+                <label for="videoSource">Choose your camera: </label><select id="videoSource"></select>
+                <p>When in AR mode, create an hologram by looking at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
+                <div class="linkG"><p><b><a href="https://hologram-webxr.herokuapp.com/">https://hologram-webxr.herokuapp.com/</a></b></p></div>
+                <span>by vihor</span>
                 </div>
             </div>
            
@@ -164,7 +163,7 @@
             videoSelect.onchange = getStream;
           
 
-            var net; // Model for inference
+           // var net; // Model for inference
 
             async function loadModel(){
                 // Load the model
@@ -172,14 +171,14 @@
                     {
                         architecture: 'MobileNetV1',
                         outputStride: 16,
-                        multiplier: 0.75,
+                        multiplier: 0.50,
                         quantBytes: 2,
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7
                         }
                     );
             }
-            loadModel();
+           // loadModel();
 
             // Get a list of available media input (and output) devices
             // then get a MediaStream for the currently selected input device
@@ -408,7 +407,7 @@
             async function loadAndPredict(img) {
                 if(net == null){
                     console.log("loading model");
-                    net = await bodyPix.load(
+                   const net = await bodyPix.load(
                     {
                         architecture: 'MobileNetV1',
                         outputStride: 16,
