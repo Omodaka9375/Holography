@@ -8,23 +8,16 @@
         
         <!-- Load TensorFlow.js -->
         <!-- <script src="./tf.min.js"></script> -->
-      <!--  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
         <!-- Load BodyPix -->
         <!--  <script src="./body-pix.min.js"></script> -->
-        <!--<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script> 
 
-        
-        <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script> -->
 
 
         <!-- 
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script>
-        -->
-            <!-- Load TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0"></script> 
-    <!-- Load BodyPix -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@1.0.0"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script> -->
 
     </head> 
     <body>  
@@ -156,7 +149,6 @@
             var constraints;
             var imageCapture;
             var mediaStream;
-            var canvas = document.querySelector('canvas');
 
             var controller;
 
@@ -233,7 +225,7 @@
                 mediaStream = stream;
                 video.srcObject = stream;
                 video.classList.remove('hidden');
-                imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+                imageCapture = new ImageCapture(stream.getVideoTracks()[0][0]);
                 getCapabilities();
             }
 
@@ -259,8 +251,7 @@
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
-                    var ctx = canvas.getContext('2d');
-                    
+                          
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
@@ -287,14 +278,12 @@
                     });
             }
             function init() {
-
-                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
-                //camera.position.z = 2;
-             //   camera.position.copy(new THREE.Vector3(0.6,0.7,0.8));
                 scene = new THREE.Scene();
-
-                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+                
+                camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
                 renderer.xr.enabled = true;
+                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+                
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -325,11 +314,6 @@
               
                 var geometryC = new THREE.BoxGeometry( 0.1,0.1,0.1 );
                 var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
-                var cube = new THREE.Mesh( geometryC, materialC );
-               // scene.add( cube );
-
-                //loadTextures();
-
 
                 // grabFrame and show extracte silouhette
                 function onSelect() {
@@ -356,38 +340,6 @@
 
             init();
 
-
-            function loadTextures(){
-
-                var loader = new THREE.TextureLoader();
-                // load a resource
-                loader.load(
-                    // resource URL
-                    textureName,
-
-                    // onLoad callback
-                    function ( texture ) {
-                        // in this example we create the material when the texture is loaded
-                        var material = new THREE.MeshBasicMaterial( {
-                            map: texture
-                        } );
-
-                        //createParticles(texture);
-                        loadAndPredict(texture.image);
-
-                    },
-
-                    // onProgress callback currently not supported
-                    undefined,
-
-                    // onError callback
-                    function ( err ) {
-                        console.error( 'An error happened. Fuckkk not agaiiin!' );
-                    }
-                );
- 
-
-            }
 
             function animate() {
 
