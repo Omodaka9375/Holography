@@ -233,27 +233,6 @@
             });
             }
 
-
-            // Get an ImageBitmap from the currently selected camera source and
-            // display this with a canvas element.
-            function onGrabFrameButtonClick() {
-                imageCapture.grabFrame()
-                .then(imageBitmap => {
-                    console.log('Grabbed frame:', imageBitmap);
-                    const canvas = document.createElement('canvas'); 
-                    canvas.width = imageBitmap.width;
-                    canvas.height = imageBitmap.height;
-                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
-
-                    textureOriginal = new THREE.Texture(canvas);
-                    textureOriginal.needsUpdate = true;
-                    video.hidden = true;
-                    loadAndPredict(textureOriginal.image);
-                })
-                .catch(error => console.log(error));
-            }
-
-
 function init() {
 
                 camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
@@ -305,8 +284,20 @@ function animate() {
 }
 
 function onSelect() {
+    imageCapture.grabFrame()
+                .then(imageBitmap => {
+                    console.log('Grabbed frame:', imageBitmap);
+                    const canvas = document.createElement('canvas'); 
+                    canvas.width = imageBitmap.width;
+                    canvas.height = imageBitmap.height;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
 
-onGrabFrameButtonClick();
+                    textureOriginal = new THREE.Texture(canvas);
+                    textureOriginal.needsUpdate = true;
+                    video.hidden = true;
+                    loadAndPredict(textureOriginal.image);
+                })
+                .catch(error => console.log(error));
 }
 
 function render() {
