@@ -214,23 +214,18 @@
                     video: {deviceId: videoSource ? {exact: videoSource} : undefined}
                 };
                 navigator.mediaDevices.getUserMedia(constraints, {video: true})
-                    .then(gotStream)
+                    .then(function(stream){
+                        console.log('getUserMedia() got stream: ', stream);
+                        mediaStream = stream;
+                        video.srcObject = stream;
+                        video.classList.remove('hidden');
+                        const track = stream.getVideoTracks()[0];
+                        imageCapture = new ImageCapture(track);
+                        getCapabilities();
+                     })
                     .catch(error => {
                     console.log('getUserMedia error: ', error);
                     });
-            }
-
-            // Display the stream from the currently selected camera source, and then
-            // create an ImageCapture object, using the video from the stream.
-            function gotStream(stream) {
-                console.log('getUserMedia() got stream: ', stream);
-                mediaStream = stream;
-                video.srcObject = stream;
-                video.classList.remove('hidden');
-                const track = mediaStream.getVideoTracks()[0];
-
-                imageCapture = new ImageCapture(track);
-                getCapabilities();
             }
 
             // Get the PhotoCapabilities for the currently selected camera source.
