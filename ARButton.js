@@ -15,11 +15,11 @@ var ARButton = {
 
 				session.addEventListener( 'end', onSessionEnded );
 
-				/*
+				
 				session.updateWorldTrackingState( {
 					'planeDetectionState': { 'enabled': true }
 				} );
-				*/
+				
 
 				renderer.xr.setReferenceSpaceType( 'local' );
 				renderer.xr.setSession( session );

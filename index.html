@@ -272,7 +272,7 @@
             function onGrabFrameButtonClick() {
                 imageCapture.grabFrame()
                 .then(imageBitmap => {
-                    var canvas = document.createElement('canvas'); 
+                    const canvas = document.createElement('canvas'); 
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
@@ -283,7 +283,7 @@
                     loadAndPredict(textureOriginal.image);
                 })
                 .catch(error => console.log(error));
-                }
+            }
 
 
             function init() {
