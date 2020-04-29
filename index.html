@@ -225,7 +225,8 @@
                 mediaStream = stream;
                 video.srcObject = stream;
                 video.classList.remove('hidden');
-                imageCapture = new ImageCapture(stream.getVideoTracks()[0][0]);
+                print('WATCH: ' + str(len(stream.getVideoTracks())))
+                imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
                 getCapabilities();
             }
 
