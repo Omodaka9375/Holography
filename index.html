@@ -293,7 +293,10 @@
 				controller.addEventListener( 'select', onSelect );
                 scene.add( controller );
                 
-
+                var videoSource = 2.0;
+                constraints = {
+                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                };
                 navigator.mediaDevices.getUserMedia()
                     .then(gotStream)
                     .catch(error => {
