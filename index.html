@@ -216,7 +216,7 @@
                 };
 
                 
-                navigator.mediaDevices.getUserMedia(constraints, {video: true})
+                navigator.mediaDevices.getUserMedia(constraints)
                     .then(function(stream){
                         console.log('getUserMedia() got stream: ', stream);
                         mediaStream = stream;
@@ -251,6 +251,7 @@ function init() {
 
                 renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
                 renderer.xr.enabled = true;
+                print("Web XR Enabled.")
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -296,10 +297,11 @@ function onSelect() {
     imageCapture.grabFrame()
                 .then(imageBitmap => {
                     console.log('Grabbed frame:', imageBitmap);
-                    const canvas = document.createElement('canvas'); 
+                   // const canvas = document.createElement('canvas'); 
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                    canvas.classList.remove('hidden');
 
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
