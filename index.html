@@ -246,12 +246,12 @@
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
-            function grabFrame() {
+            async function grabFrame() {
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext('2d');
+                
                     
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
