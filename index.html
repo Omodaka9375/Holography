@@ -241,12 +241,13 @@
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
                 scene.add( controller );
-                
+                var constraints = {  video: true }; 
+                getMedia(constraints);
             }
 
             loadModel();
             init();
-            getMedia();
+           // getMedia();
 
             async function getMedia(constraints) {
                 let stream = null;
@@ -257,7 +258,7 @@
                     /* use the stream */
                 } catch(err) {
                     /* handle the error */
-                    console.log('getUserMedia error: ', error);
+                    console.log('getUserMedia error: ', err);
                 }
             }
 
