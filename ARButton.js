@@ -1,8 +1,3 @@
-/**
- * @author mrdoob / http://mrdoob.com
- * @author Mugen87 / https://github.com/Mugen87
- */
-
 var ARButton = {
 
 	createButton: function ( renderer ) {
@@ -14,6 +9,12 @@ var ARButton = {
 			function onSessionStarted( session ) {
 
 				session.addEventListener( 'end', onSessionEnded );
+
+				/*
+				session.updateWorldTrackingState( {
+					'planeDetectionState': { 'enabled': true }
+				} );
+				*/
 
 				renderer.xr.setReferenceSpaceType( 'local' );
 				renderer.xr.setSession( session );
