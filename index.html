@@ -131,7 +131,7 @@
         </script>
 
         <script type="module">
-
+            'use strict';
             import * as THREE from './three.module.js';
             import { ARButton } from './ARButton.js';
             //import { OrbitControls } from './controls/OrbitControls.js';
@@ -154,6 +154,15 @@
             var mediaStream;
             
             var controller;
+
+            var isSecureOrigin = location.protocol === 'https:' ||
+                location.host === 'localhost';
+                if (!isSecureOrigin) {
+                alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
+                    '\n\nChanging protocol to HTTPS');
+                location.protocol = 'HTTPS';
+}
+
 
             var grabFrameButton = document.querySelector('button#grabFrame');
             var videoSelect = document.querySelector('select#videoSource');
