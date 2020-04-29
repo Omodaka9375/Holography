@@ -171,7 +171,7 @@
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
-            function grabFrame() {
+           async function grabFrame() {
                 imageCapture.track.enabled = true;
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
@@ -193,7 +193,7 @@
             }
 
 
-            function init() {
+          async function init() {
 
                 container = document.createElement( 'div' );
 				document.body.appendChild( container );
@@ -278,7 +278,7 @@
                 let stream = null;
 
                 try {
-                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    stream = await navigator.mediaDevices.getUserMedia(constraints, {video: true});
                     gotStream(stream)
                     /* use the stream */
                 } catch(err) {
@@ -307,25 +307,7 @@
 
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
-/*                   console.log("Loading model");
-                   const net = await bodyPix.load(
-                    {
-                        architecture: 'MobileNetV1',
-                        outputStride: 16,
-                        multiplier: 0.5,
-                        quantBytes: 2
 
-                        }
-                    ); */
-                
-                /**
-                 * One of (see documentation below):
-                 *   - net.segmentPerson
-                 *   - net.segmentPersonParts
-                 *   - net.segmentMultiPerson
-                 *   - net.segmentMultiPersonParts
-                 * See documentation below for details on each method.
-                 */
                 var segmentation = await net.segmentPerson(img, {
                     flipHorizontal: false,
                     internalResolution: 'medium',
