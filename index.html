@@ -241,7 +241,13 @@
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
                 scene.add( controller );
-                var constraints = {  video: true }; 
+
+                var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848";
+                constraints = {
+                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                };
+                
+ 
                 getMedia(constraints);
             }
 
