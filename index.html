@@ -409,19 +409,17 @@
 
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
-                if(net == null){
-                    console.log("loading model");
+                  console.log("Loading model");
                    const net = await bodyPix.load(
                     {
                         architecture: 'MobileNetV1',
                         outputStride: 16,
-                        multiplier: 0.75,
-                        quantBytes: 2,
-                        internalResolution: 'medium',
-                        segmentationThreshold: 0.7
+                        multiplier: 0.5,
+                        quantBytes: 2
+
                         }
                     );
-                }
+                
                 /**
                  * One of (see documentation below):
                  *   - net.segmentPerson
@@ -430,7 +428,11 @@
                  *   - net.segmentMultiPersonParts
                  * See documentation below for details on each method.
                  */
-                var segmentation = await net.segmentPerson(img); // net.segmentPerson(img);
+                var segmentation = await net.segmentPerson(img, {
+                    flipHorizontal: false,
+                    internalResolution: 'medium',
+                    segmentationThreshold: 0.7
+                }); 
                 console.log(segmentation);
 
                 createTextureAndParticlesFromSegmentation(segmentation);
