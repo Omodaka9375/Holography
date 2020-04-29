@@ -162,7 +162,7 @@
             var video = document.querySelector('video');
             //grabFrameButton.onclick = grabFrame;
             videoSelect.onchange = getStream;
-            zoomInput.oninput = setZoom;
+          
 
             var net; // Model for inference
 
@@ -238,12 +238,12 @@
             function getCapabilities() {
             imageCapture.getPhotoCapabilities().then(function(capabilities) {
                 console.log('Camera capabilities:', capabilities);
-                if (capabilities.zoom.max > 0) {
+/*                 if (capabilities.zoom.max > 0) {
                 zoomInput.min = capabilities.zoom.min;
                 zoomInput.max = capabilities.zoom.max;
                 zoomInput.value = capabilities.zoom.current;
                 zoomInput.classList.remove('hidden');
-                }
+                } */
             }).catch(function(error) {
                 console.log('getCapabilities() error: ', error);
             });
