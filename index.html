@@ -204,20 +204,20 @@
 
             // Get a video stream from the currently selected camera source.
             function getStream() {
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => {
-                track.stop();
-                });
-            }
-            var videoSource = videoSelect.value;
-            constraints = {
-                video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-            };
-            navigator.mediaDevices.getUserMedia(constraints, {video: true})
-                .then(gotStream)
-                .catch(error => {
-                console.log('getUserMedia error: ', error);
-                });
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(track => {
+                    track.stop();
+                    });
+                }
+                var videoSource = videoSelect.value;
+                constraints = {
+                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                };
+                navigator.mediaDevices.getUserMedia(constraints, {video: true})
+                    .then(gotStream)
+                    .catch(error => {
+                    console.log('getUserMedia error: ', error);
+                    });
             }
 
             // Display the stream from the currently selected camera source, and then
@@ -246,7 +246,7 @@
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
-            async function grabFrame() {
+            function grabFrame() {
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
@@ -256,7 +256,7 @@
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
-                    canvas.classList.remove('hidden');
+    
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     
@@ -273,6 +273,22 @@
                 });
         
             }
+
+            function onGrabFrameButtonClick() {
+                imageCapture.grabFrame()
+                .then(imageBitmap => {
+                    var canvas = document.createElement('canvas'); 
+                    canvas.width = imageBitmap.width;
+                    canvas.height = imageBitmap.height;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+
+                    textureOriginal = new THREE.Texture(canvas);
+                    textureOriginal.needsUpdate = true;
+                    video.hidden = true;
+                    loadAndPredict(textureOriginal.image);
+                })
+                .catch(error => console.log(error));
+                }
 
 
             function init() {
@@ -323,7 +339,8 @@
                 // grabFrame and show extracte silouhette
                 function onSelect() {
                     // time = 0;
-                    grabFrame();
+                    // grabFrame();
+                    onGrabFrameButtonClick();
                     /*
                     var geometry = new THREE.CylinderBufferGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
                     var material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random() } );
