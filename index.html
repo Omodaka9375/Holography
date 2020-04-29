@@ -251,42 +251,25 @@
             // display this with a canvas element.
             function grabFrame() {
 
-            const mediaStreamTrack = mediaStream.getVideoTracks()[0];
-            video.autoplay = true;
-            video.srcObject = mediaStream;
-            video.onplay = () => {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                textureOriginal = new THREE.Texture(canvas);
-                textureOriginal.needsUpdate = true;
+   };
+                 imageCapture.grabFrame().then(function(imageBitmap) {
+                    console.log('Grabbed frame:', imageBitmap);
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
                     
-                //     // particles.material.uniforms.originalImage.value = texture;
-
-                 // Then we create particles and launch the segmentation
-                 video.hidden = true;
-                     // createParticles(textureOriginal);
-                console.log('Loading and predicting:');
-                loadAndPredict(textureOriginal.image);
-    };
-                // imageCapture.grabFrame().then(function(imageBitmap) {
-                //     console.log('Grabbed frame:', imageBitmap);
-                //     var canvas = document.createElement('canvas');
-                //     var ctx = canvas.getContext('2d');
-                    
-                //     canvas.width = imageBitmap.width;
-                //     canvas.height = imageBitmap.height;
-                //     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
-                //     textureOriginal = new THREE.Texture(canvas);
-                //     textureOriginal.needsUpdate = true;
+                    canvas.width = imageBitmap.width;
+                    canvas.height = imageBitmap.height;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                    textureOriginal = new THREE.Texture(canvas);
+                    textureOriginal.needsUpdate = true;
                     
                 //     // particles.material.uniforms.originalImage.value = texture;
 
                 //     // Then we create particles and launch the segmentation
-                //     video.hidden = true;
+                    video.hidden = true;
                 //     // createParticles(textureOriginal);
-                //     console.log('Loading and predicting:');
-                //     loadAndPredict(textureOriginal.image);
+                    console.log('Loading and predicting:');
+                    loadAndPredict(textureOriginal.image);
                     
                    
                 // }).catch(function(error) {
