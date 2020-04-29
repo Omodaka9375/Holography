@@ -22,19 +22,7 @@
     </head> 
     <body>  
 
-        <div class="containerV">
-            <video video autoplay playsinline class="hidden"></video>
-            <div class="red-square" style="display:none;">
-                <div class="overlay">
-                <label for="videoSource">Choose your camera: </label><select id="videoSource"></select>
-                <p>When in AR mode, create an hologram by looking at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
-                <div class="linkG"><p><b><a href="https://hologram-webxr.herokuapp.com/">https://hologram-webxr.herokuapp.com/</a></b></p></div>
-                <span>by vihor</span>
-                </div>
-            </div>
-           
-        </div>
-        <div id="container"></div>
+
         <script type="x-shader/x-vertex" id="vertexshaderParticle">
             uniform sampler2D originalImage;
             uniform sampler2D depthMap;
@@ -131,7 +119,6 @@
 
             import * as THREE from './three.module.js';
             import { ARButton } from './ARButton.js';
-            //import { OrbitControls } from './controls/OrbitControls.js';
             var renderer, scene, camera, controls;
             var time = 0;
             var particles;
@@ -149,7 +136,7 @@
             var constraints;
             var imageCapture;
             var mediaStream;
-
+            var container;
             var controller;
 
             var grabFrameButton = document.querySelector('button#grabFrame');
@@ -222,29 +209,11 @@
             // create an ImageCapture object, using the video from the stream.
             function gotStream(stream) {
                 console.log('getUserMedia() got stream: ', stream);
-                mediaStream = stream;
-                video.srcObject = stream;
-                video.classList.remove('hidden');
+
                 print('WATCH: ' + str(len(stream.getVideoTracks())))
                 imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
-                getCapabilities();
+ 
             }
-
-            // Get the PhotoCapabilities for the currently selected camera source.
-            function getCapabilities() {
-            imageCapture.getPhotoCapabilities().then(function(capabilities) {
-                console.log('Camera capabilities:', capabilities);
-/*                 if (capabilities.zoom.max > 0) {
-                zoomInput.min = capabilities.zoom.min;
-                zoomInput.max = capabilities.zoom.max;
-                zoomInput.value = capabilities.zoom.current;
-                zoomInput.classList.remove('hidden');
-                } */
-            }).catch(function(error) {
-                console.log('getCapabilities() error: ', error);
-            });
-            }
-
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
@@ -259,11 +228,7 @@
                     canvas.classList.remove('hidden');
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
-                    
-                    // particles.material.uniforms.originalImage.value = texture;
 
-                    // Then we create particles and launch the segmentation
-                    video.hidden = true;
                     // createParticles(textureOriginal);
                     loadAndPredict(textureOriginal.image);
                     
@@ -279,16 +244,19 @@
                     });
             }
             function init() {
+
+                container = document.createElement( 'div' );
+				document.body.appendChild( container );
                 scene = new THREE.Scene();
                 
                 camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-                renderer.xr.enabled = true;
+                
                 renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
                 
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
-
-                var container = document.getElementById( 'container' );
+                renderer.xr.enabled = true;
+   
                 container.appendChild( renderer.domElement );
                 document.body.appendChild( ARButton.createButton( renderer ) );
                 
@@ -325,11 +293,8 @@
 				controller.addEventListener( 'select', onSelect );
                 scene.add( controller );
                 
-                var videoSource = 2;
-                constraints = {
-                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-                };
-                navigator.mediaDevices.getUserMedia(constraints)
+
+                navigator.mediaDevices.getUserMedia()
                     .then(gotStream)
                     .catch(error => {
                     console.log('getUserMedia error: ', error);
