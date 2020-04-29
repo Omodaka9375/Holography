@@ -172,7 +172,7 @@
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
             function grabFrame() {
-
+                imageCapture.track.enabled = true;
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
                           
