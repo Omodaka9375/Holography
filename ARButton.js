@@ -17,7 +17,7 @@ var ARButton = {
 				*/
 
 				renderer.xr.setReferenceSpaceType( 'local' );
-				//renderer.xr.setSession( session );
+				renderer.xr.setSession( session );
 				button.textContent = 'STOP AR';
 
 				currentSession = session;
@@ -61,7 +61,10 @@ var ARButton = {
 				if ( currentSession === null ) {
 
 					// navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
-					navigator.xr.requestSession('immersive-ar') .then(onSessionStarted);
+					navigator.xr.requestSession('immersive-ar').then((session) => {
+						session.isImmersive = true;
+						onSessionStarted(session);
+					  });
 				} else {
 
 					currentSession.end();
@@ -71,17 +74,7 @@ var ARButton = {
 			};
 
 		}
-		function onRequestSession() {
-			// Requests an 'immersive-ar' session, which ensures that the users
-			// environment will be visible either via video passthrough or a
-			// transparent display. This may be presented either in a headset or
-			// fullscreen on a mobile device.
-			return navigator.xr.requestSession('immersive-ar')
-				.then((session) => {
-				  session.isImmersive = true;
-				  onSessionStarted(session);
-				});
-		  }
+
 		function disableButton() {
 
 			button.style.display = '';
