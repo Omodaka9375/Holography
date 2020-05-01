@@ -133,7 +133,7 @@
 
             // Photo
             var constraints;
-            var imageCapture;
+            const imageCapture;
             var container;
             var controller;
             var net;
@@ -150,14 +150,6 @@
                         segmentationThreshold: 0.7
                         }
                     );
-            }
-
-            function gotStream(stream) {
-                console.log('getUserMedia() got stream: ', stream);
-
-              //  print('WATCH: ' + str(len(stream.getVideoTracks())))
-                imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
- 
             }
 
             // Get an ImageBitmap from the currently selected camera source and
@@ -236,7 +228,7 @@
 
                 var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
                 constraints = {
-                    video: {deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    video: {facingMode:{ exact: 'environment'}}//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
                 
  
@@ -269,8 +261,8 @@
             
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
-                      var stream = await navigator.mediaDevices.getUserMedia(constraints,{video:true, audio:true});
-                        gotStream(stream)
+                      var stream = await navigator.mediaDevices.getUserMedia(constraints) //,{video:true, audio:true});
+                      imageCapture = new ImageCapture(stream.getVideoTracks()[0]
                         /* use the stream */
                     } catch(err) {
                         /* handle the error */
