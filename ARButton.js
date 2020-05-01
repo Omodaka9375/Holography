@@ -1,7 +1,7 @@
 var ARButton = {
 
 	createButton: function ( renderer ) {
-
+		var gl = null
 		function initGL() {
 			if (gl)
 			  return;
