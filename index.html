@@ -7,7 +7,7 @@
         <link type="text/css" rel="stylesheet" href="main.css">
         
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0/dist/body-pix.min.js"></script> 
 
     </head>
     
@@ -127,7 +127,6 @@
 
             import * as THREE from './three.module.js';
             import { ARButton } from './ARButton.js';
-            //import { OrbitControls } from './controls/OrbitControls.js';
             var renderer, scene, camera, controls;
             var time = 0;
             var particles;
@@ -245,7 +244,7 @@
             function grabFrame() {
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
-                    console.log('Grabbed frame:', imageBitmap);
+                    //console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
