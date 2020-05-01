@@ -155,7 +155,8 @@
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
            function grabFrame() {
-                imageCapture.track.mute = false;
+                //imageCapture.track.mute = true;
+                console.log("MediaStreamTrack muted:", imageCapture.track.muted);
 
                 console.log(imageCapture.track)
                 imageCapture.track.enabled = true;
@@ -227,7 +228,7 @@
 
                 var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
                 constraints = {
-                    video: {video: true, audio: false, facingMode:{ exact: 'environment'}}//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    video: {video: true, audio: true, facingMode:{ exact: 'environment'}}//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
                 
  
@@ -270,6 +271,8 @@
                       
                       var track = stream.getVideoTracks();
                       imageCapture = new ImageCapture(track[0]);
+                      console.log("MediaStreamTrack muted:", stream.getAudioTracks()[0].muted);
+
                         /* use the stream */
                     } catch(err) {
                         /* handle the error */
