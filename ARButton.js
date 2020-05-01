@@ -16,7 +16,7 @@ var ARButton = {
 				} );
 				*/
 
-				renderer.xr.setReferenceSpaceType( 'bounded-floor' );
+				renderer.xr.setReferenceSpaceType( 'local' );
 				renderer.xr.setSession( session );
 				button.textContent = 'STOP AR';
 
@@ -60,8 +60,8 @@ var ARButton = {
 
 				if ( currentSession === null ) {
 
-					navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
-
+					// navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
+					navigator.xr.requestSession('immersive-ar') .then((session) => { xrButton.setSession(session); session.isImmersive = true; onSessionStarted(session); });
 				} else {
 
 					currentSession.end();
