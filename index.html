@@ -267,10 +267,10 @@
             init();
 
             async function getMedia(constraints) {
-                const stream = null;
+            
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
-                        stream = await navigator.mediaDevices.getUserMedia(constraints);
+                      var stream = await navigator.mediaDevices.getUserMedia(constraints);
                         gotStream(stream)
                         /* use the stream */
                     } catch(err) {
