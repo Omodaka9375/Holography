@@ -164,7 +164,6 @@
             // display this with a canvas element.
            function grabFrame() {
                 imageCapture.track.enabled = true;
-                imageCapture.track.muted = false;
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');   
