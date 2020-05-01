@@ -188,7 +188,7 @@
                 
                 camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
                 
-                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true, canvas:container});
                 
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
