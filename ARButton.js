@@ -1,17 +1,6 @@
 var ARButton = {
 
 	createButton: function ( renderer ) {
-		var gl = null
-		function initGL() {
-			if (gl)
-			  return;
-	
-			gl = createWebGLContext({
-			  xrCompatible: true
-			});
-			document.body.appendChild(gl.canvas);
-
-		  }
 
 		function showStartAR( /*device*/ ) {
 
@@ -26,10 +15,6 @@ var ARButton = {
 					'planeDetectionState': { 'enabled': true }
 				} );
 				*/
-
-				initGL();
-
-				session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
 
 				renderer.xr.setReferenceSpaceType( 'local' );
 				//renderer.xr.setSession( session );
