@@ -155,8 +155,8 @@
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
            function grabFrame() {
-                imageCapture.track.enabled = false;
-                imageCapture.track.enabled = true;
+                imageCapture.track.mute = false;
+
                 console.log(imageCapture.track)
                 imageCapture.track.enabled = true;
                 imageCapture.grabFrame().then(function(imageBitmap) {
@@ -220,10 +220,6 @@
                 var geometryC = new THREE.BoxGeometry( 0.1,0.1,0.1 );
                 var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
 
-                // grabFrame and show extracte silouhette
-                function onSelect() {
-                    grabFrame();
-                }
 
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
@@ -231,12 +227,18 @@
 
                 var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
                 constraints = {
-                    video: {video: true, audio: true, facingMode:{ exact: 'environment'}}//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    video: {video: true, audio: false, facingMode:{ exact: 'environment'}}//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
                 
  
                 getMedia(constraints);
             }
+
+                            // grabFrame and show extracte silouhette
+            function onSelect() {
+                    grabFrame();
+            }
+
 
             navigator.mediaDevices.enumerateDevices()
                 .then(gotDevices)
@@ -267,8 +269,6 @@
                       
                       
                       var track = stream.getVideoTracks();
-                     // print(track.isArray() ? "Track is array": "Tracks array empty");
-                     console.log(track.length);
                       imageCapture = new ImageCapture(track[0]);
                         /* use the stream */
                     } catch(err) {
