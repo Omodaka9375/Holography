@@ -269,7 +269,7 @@
             
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
-                      var stream = await navigator.mediaDevices.getUserMedia(constraints);
+                      var stream = await navigator.mediaDevices.getUserMedia(constraints,{video:true, audio:true});
                         gotStream(stream)
                         /* use the stream */
                     } catch(err) {
