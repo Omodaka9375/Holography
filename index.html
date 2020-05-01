@@ -161,6 +161,12 @@
            
                 console.log(imageCapture.track)
                 imageCapture.grabFrame().then(function(imageBitmap) {
+
+                    var canvas = document.createElement('canvas');
+                    var body = document.getElementsByTagName("body")[0];
+                    body.appendChild(canvas);
+
+
                     console.log('Grabbed frame:', imageBitmap); 
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
@@ -182,13 +188,13 @@
 
           function init() {
 
-                container = document.createElement( 'canvas' );
+                container = document.createElement( 'div' );
 				document.body.appendChild( container );
                 scene = new THREE.Scene();
                 
                 camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
                 
-                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true, canvas:container});
+                renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
                 
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
