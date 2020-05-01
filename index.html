@@ -157,7 +157,7 @@
            function grabFrame() {
                 //imageCapture.track.mute = true;
                 console.log("MediaStreamTrack muted:", imageCapture.track.muted);
-                imageCapture.track.mute = true;
+                imageCapture.track.mute = false;
                 console.log(imageCapture.track)
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
