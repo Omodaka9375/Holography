@@ -61,7 +61,7 @@ var ARButton = {
 				if ( currentSession === null ) {
 
 					// navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
-					navigator.xr.requestSession('inline') .then(onSessionStarted);
+					navigator.xr.requestSession('immersive-ar') .then(onSessionStarted);
 				} else {
 
 					currentSession.end();
