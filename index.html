@@ -202,9 +202,14 @@
                 });
             }
             var videoSource = videoSelect.value;
-            constraints = {
+/*             constraints = {
                 video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-            };
+            }; */
+
+            constraints = {
+                    video: {facingMode:{ exact: 'environment'}},//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    audio: false
+                };
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(gotStream)
                 .catch(error => {
@@ -227,12 +232,12 @@
             function getCapabilities() {
             imageCapture.getPhotoCapabilities().then(function(capabilities) {
                 console.log('Camera capabilities:', capabilities);
-                if (capabilities.zoom.max > 0) {
+/*                 if (capabilities.zoom.max > 0) {
                 zoomInput.min = capabilities.zoom.min;
                 zoomInput.max = capabilities.zoom.max;
                 zoomInput.value = capabilities.zoom.current;
                 zoomInput.classList.remove('hidden');
-                }
+                } */
             }).catch(function(error) {
                 console.log('getCapabilities() error: ', error);
             });
