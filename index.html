@@ -246,9 +246,8 @@
             function gotDevices(deviceInfos) {
                 for (var i = 0; i !== deviceInfos.length; ++i) {
                     var deviceInfo = deviceInfos[i];
-                    console.log('Found media input or output device: ', deviceInfo);
+                    //console.log('Found media input or output device: ', deviceInfo);
                     if (deviceInfo.kind === 'videoinput') {
-                    //option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
                     console.log('Found media input or output device: ', deviceInfo);
                     }
                 }
@@ -262,7 +261,12 @@
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
                       var stream = await navigator.mediaDevices.getUserMedia(constraints) //,{video:true, audio:true});
-                      imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
+                      
+                      
+                      var track = stream.getVideoTracks();
+                      print(track.isArray() ? "Track is array": "Tracks array empty");
+                      print(len(track));
+                      imageCapture = new ImageCapture(track[0]);
                         /* use the stream */
                     } catch(err) {
                         /* handle the error */
