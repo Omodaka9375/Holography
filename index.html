@@ -161,8 +161,7 @@
            
                 console.log(imageCapture.track)
                 imageCapture.grabFrame().then(function(imageBitmap) {
-                    console.log('Grabbed frame:', imageBitmap);
-                    var canvas = document.createElement('canvas');   
+                    console.log('Grabbed frame:', imageBitmap); 
                     canvas.width = imageBitmap.width;
                     canvas.height = imageBitmap.height;
                     canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
