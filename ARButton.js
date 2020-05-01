@@ -16,7 +16,7 @@ var ARButton = {
 				} );
 				*/
 
-				renderer.xr.setReferenceSpaceType( 'local' );
+				renderer.xr.setReferenceSpaceType( 'local-floor' );
 				renderer.xr.setSession( session );
 				button.textContent = 'STOP AR';
 
