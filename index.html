@@ -270,7 +270,7 @@
                       
                       
                       var track = stream.getVideoTracks();
-                      imageCapture = new ImageCapture();
+                      imageCapture = new ImageCapture(track[0]);
                       console.log("MediaStreamTrack muted:", track[0].muted);
 
                         /* use the stream */
