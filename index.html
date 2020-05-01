@@ -157,7 +157,7 @@
            function grabFrame() {
                 //imageCapture.track.mute = true;
                 console.log("MediaStreamTrack muted:", imageCapture.track.muted);
-
+                imageCapture.track.mute = true;
                 console.log(imageCapture.track)
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
@@ -227,7 +227,7 @@
 
                 var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
                 constraints = {
-                    video: {video: true, facingMode:{ exact: 'environment'}},//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    video: {facingMode:{ exact: 'environment'}},//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                     audio: true
                 };
                 
