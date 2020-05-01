@@ -2,6 +2,17 @@ var ARButton = {
 
 	createButton: function ( renderer ) {
 
+		function initGL() {
+			if (gl)
+			  return;
+	
+			gl = createWebGLContext({
+			  xrCompatible: true
+			});
+			document.body.appendChild(gl.canvas);
+
+		  }
+
 		function showStartAR( /*device*/ ) {
 
 			var currentSession = null;
@@ -15,6 +26,10 @@ var ARButton = {
 					'planeDetectionState': { 'enabled': true }
 				} );
 				*/
+
+				initGL();
+
+				session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
 
 				renderer.xr.setReferenceSpaceType( 'local' );
 				renderer.xr.setSession( session );
@@ -61,7 +76,7 @@ var ARButton = {
 				if ( currentSession === null ) {
 
 					// navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
-					navigator.xr.requestSession('immersive-ar') .then((session) => { session.isImmersive = true; onSessionStarted(session); });
+					navigator.xr.requestSession('inline') .then(onSessionStarted());
 				} else {
 
 					currentSession.end();
@@ -71,7 +86,17 @@ var ARButton = {
 			};
 
 		}
-
+		function onRequestSession() {
+			// Requests an 'immersive-ar' session, which ensures that the users
+			// environment will be visible either via video passthrough or a
+			// transparent display. This may be presented either in a headset or
+			// fullscreen on a mobile device.
+			return navigator.xr.requestSession('immersive-ar')
+				.then((session) => {
+				  session.isImmersive = true;
+				  onSessionStarted(session);
+				});
+		  }
 		function disableButton() {
 
 			button.style.display = '';

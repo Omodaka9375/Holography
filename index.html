@@ -116,10 +116,11 @@
         </script>
 
         <script type="module">
-
+            import WebXRPolyfill from './webxr-polyfill.module.js';
             import * as THREE from './three.module.js';
             import { ARButton } from './ARButton.js';
             var renderer, scene, camera, controls;
+            var polyfill = new WebXRPolyfill();
             var time = 0;
             var particles;
             var shaderMaterialParticles;
