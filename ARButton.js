@@ -32,7 +32,7 @@ var ARButton = {
 				session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
 
 				renderer.xr.setReferenceSpaceType( 'local' );
-				renderer.xr.setSession( session );
+				//renderer.xr.setSession( session );
 				button.textContent = 'STOP AR';
 
 				currentSession = session;
@@ -76,7 +76,7 @@ var ARButton = {
 				if ( currentSession === null ) {
 
 					// navigator.xr.requestSession( 'immersive-ar' ).then( onSessionStarted );
-					navigator.xr.requestSession('inline') .then(onSessionStarted());
+					navigator.xr.requestSession('inline') .then(onSessionStarted);
 				} else {
 
 					currentSession.end();
