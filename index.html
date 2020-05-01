@@ -186,7 +186,7 @@
 				document.body.appendChild( container );
                 scene = new THREE.Scene();
                 
-                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
+                camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
                 
                 renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
                 
@@ -262,7 +262,7 @@
             loadModel();
             init();
 
-            async function getMedia(constraints) {
+            function getMedia(constraints) {
             
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
