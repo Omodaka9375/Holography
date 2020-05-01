@@ -164,6 +164,7 @@
             // display this with a canvas element.
            function grabFrame() {
                 imageCapture.track.enabled = true;
+                imageCapture.track.muted = false;
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');   
@@ -236,7 +237,7 @@
 
                 var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
                 constraints = {
-                    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+                    video: {deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
                 
  
@@ -266,15 +267,16 @@
             init();
 
             async function getMedia(constraints) {
-                let stream = null;
-
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia(constraints, {video: true});
-                    gotStream(stream)
-                    /* use the stream */
-                } catch(err) {
-                    /* handle the error */
-                    console.log('getUserMedia error: ', err);
+                const stream = null;
+                if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia(constraints);
+                        gotStream(stream)
+                        /* use the stream */
+                    } catch(err) {
+                        /* handle the error */
+                        console.log('getUserMedia error: ', err);
+                    }
                 }
             }
 
