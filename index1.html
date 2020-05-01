@@ -6,30 +6,20 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link type="text/css" rel="stylesheet" href="main.css">
         
+        <!-- Load TensorFlow.js -->
+        <!-- <script src="./tf.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script> 
 
-    </head>
-    
-    
-   
 
-  
+
+        <!-- 
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script> -->
+
+    </head> 
     <body>  
 
-        <div class="containerV">
-            <video video autoplay playsinline class="hidden">
-            </video>
-            <div class="red-square">
-                <div class="overlay">
-                    <label for="videoSource">Choose your camera: </label><select id="videoSource"></select>
-                    <p>When in AR mode, create an hologram by looking at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
-                    <div class="linkG"><p><b><a href="https://github.com/nosy-b/holography">https://github.com/nosy-b/holography</a></b></p></div>
-                </div>
-            </div>
-           
-        </div>
-        <div id="container"></div>
 
         <script type="x-shader/x-vertex" id="vertexshaderParticle">
             uniform sampler2D originalImage;
@@ -124,14 +114,13 @@
         </script>
 
         <script type="module">
-
+            import WebXRPolyfill from './webxr-polyfill.module.js';
             import * as THREE from './three.module.js';
             import { ARButton } from './ARButton.js';
-            //import { OrbitControls } from './controls/OrbitControls.js';
             var renderer, scene, camera, controls;
+            var polyfill = new WebXRPolyfill();
             var time = 0;
             var particles;
-            var texture;
             var shaderMaterialParticles;
             var textureSegmentation;
             var textureName = "im_7.jpg"; 
@@ -144,17 +133,9 @@
             // Photo
             var constraints;
             var imageCapture;
-            var mediaStream;
-            
+            var container;
             var controller;
-
-            var grabFrameButton = document.querySelector('button#grabFrame');
-            var videoSelect = document.querySelector('select#videoSource');
-            var video = document.querySelector('video');
-            //grabFrameButton.onclick = grabFrame;
-            videoSelect.onchange = getStream;
-
-            var net; // Model for inference
+            var net;
 
             async function loadModel(){
                 // Load the model
@@ -162,100 +143,38 @@
                     {
                         architecture: 'MobileNetV1',
                         outputStride: 16,
-                        multiplier: 0.75,
+                        multiplier: 0.5,
                         quantBytes: 2,
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7
                         }
                     );
             }
-            loadModel();
-
-            // Get a list of available media input (and output) devices
-            // then get a MediaStream for the currently selected input device
-            navigator.mediaDevices.enumerateDevices()
-                .then(gotDevices)
-                .catch(error => {
-                    console.log('enumerateDevices() error: ', error);
-                })
-                .then(getStream);
-
-            // From the list of media devices available, set up the camera source <select>,
-            // then get a video stream from the default camera source.
-            function gotDevices(deviceInfos) {
-                for (var i = 0; i !== deviceInfos.length; ++i) {
-                    var deviceInfo = deviceInfos[i];
-                    console.log('Found media input or output device: ', deviceInfo);
-                    var option = document.createElement('option');
-                    option.value = deviceInfo.deviceId;
-                    if (deviceInfo.kind === 'videoinput') {
-                    option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
-                    videoSelect.appendChild(option);
-                    }
-                }
-            }
-
-            // Get a video stream from the currently selected camera source.
-            function getStream() {
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => {
-                track.stop();
-                });
-            }
-            var videoSource = videoSelect.value;
-            constraints = {
-                video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-            };
-            navigator.mediaDevices.getUserMedia(constraints)
-                .then(gotStream)
-                .catch(error => {
-                console.log('getUserMedia error: ', error);
-                });
-            }
-
-            // Display the stream from the currently selected camera source, and then
-            // create an ImageCapture object, using the video from the stream.
-            function gotStream(stream) {
-                console.log('getUserMedia() got stream: ', stream);
-                mediaStream = stream;
-                video.srcObject = stream;
-                video.classList.remove('hidden');
-                imageCapture = new ImageCapture(stream.getVideoTracks()[0]);
-                getCapabilities();
-            }
-
-            // Get the PhotoCapabilities for the currently selected camera source.
-            function getCapabilities() {
-            imageCapture.getPhotoCapabilities().then(function(capabilities) {
-                console.log('Camera capabilities:', capabilities);
-                if (capabilities.zoom.max > 0) {
-                zoomInput.min = capabilities.zoom.min;
-                zoomInput.max = capabilities.zoom.max;
-                zoomInput.value = capabilities.zoom.current;
-                zoomInput.classList.remove('hidden');
-                }
-            }).catch(function(error) {
-                console.log('getCapabilities() error: ', error);
-            });
-            }
-
 
             // Get an ImageBitmap from the currently selected camera source and
             // display this with a canvas element.
-            function grabFrame() {
-
+           function grabFrame() {
+                //imageCapture.track.mute = true;
+                console.log("MediaStreamTrack muted:", imageCapture.track.muted);
+           
+                console.log(imageCapture.track)
                 imageCapture.grabFrame().then(function(imageBitmap) {
-                    console.log('Grabbed frame:', imageBitmap);
+
                     var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext('2d');
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    var body = document.getElementsByTagName("body")[0];
+                    body.appendChild(canvas);
+
+
+                    console.log('Grabbed frame:', imageBitmap); 
+                    canvas.width = imageBitmap.width;
+                    canvas.height = imageBitmap.height;
+                    canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
 
                     textureOriginal = new THREE.Texture(canvas);
+
                     textureOriginal.needsUpdate = true;
 
-                    video.hidden = true;
+                    // createParticles(textureOriginal);
                     loadAndPredict(textureOriginal.image);
                     
                    
@@ -265,19 +184,20 @@
             }
 
 
-            function init() {
+          function init() {
 
-                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
-                //camera.position.z = 2;
-             //   camera.position.copy(new THREE.Vector3(0.6,0.7,0.8));
+                container = document.createElement( 'div' );
+				document.body.appendChild( container );
                 scene = new THREE.Scene();
-
+                
+                camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 500 );
+                
                 renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-                renderer.xr.enabled = true;
+                
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
-
-                var container = document.getElementById( 'container' );
+                renderer.xr.enabled = true;
+   
                 container.appendChild( renderer.domElement );
                 document.body.appendChild( ARButton.createButton( renderer ) );
                 
@@ -296,7 +216,6 @@
 					uniforms: uniforms,
 					vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
 					fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
-                    //blending: THREE.AdditiveBlending,
 					depthTest: false,
 					transparent: true,
 					vertexColors: true
@@ -304,113 +223,67 @@
               
                 var geometryC = new THREE.BoxGeometry( 0.1,0.1,0.1 );
                 var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
-                var cube = new THREE.Mesh( geometryC, materialC );
-               // scene.add( cube );
 
-                //loadTextures();
-
-
-                // grabFrame and show extracte silouhette
-                function onSelect() {
-                    // time = 0;
-                    grabFrame();
-                    /*
-                    var geometry = new THREE.CylinderBufferGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
-                    var material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random() } );
-                    var mesh = new THREE.Mesh( geometry, material );
-                    mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
-                    mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
-                    scene.add( mesh );
-                    */
-                    
-                }
 
                 controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
-				scene.add( controller );
+                scene.add( controller );
+
+                var videoSource = "777c810d69597cf54aff909a1cd006dfaa3e2b31cd1be326faa98b50f75e9848"; // "f8d0c84d41cd5014401d4737b2a34be3bfc9abac0288377cba5186cdaa4d18dc"
+                constraints = {
+                    video: {facingMode:{ exact: 'environment'}},//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    audio: false
+                };
                 
-            }
-
-
-
-            init();
-
-
-            function loadTextures(){
-
-                var loader = new THREE.TextureLoader();
-                // load a resource
-                loader.load(
-                    // resource URL
-                    textureName,
-
-                    // onLoad callback
-                    function ( texture ) {
-                        // in this example we create the material when the texture is loaded
-                        var material = new THREE.MeshBasicMaterial( {
-                            map: texture
-                        } );
-
-                        //createParticles(texture);
-                        loadAndPredict(texture.image);
-
-                    },
-
-                    // onProgress callback currently not supported
-                    undefined,
-
-                    // onError callback
-                    function ( err ) {
-                        console.error( 'An error happened. Fuckkk not agaiiin!' );
-                    }
-                );
  
-
+                getMedia(constraints);
             }
 
-       /*         
-            // Create particles uniformly for an image
-            function createParticles(tex){
+                            // grabFrame and show extracte silouhette
+            function onSelect() {
+                    grabFrame();
+            }
 
-                console.log(tex.image.width);
-                if(tex.image.width > 1920 || tex.image.height > 1920)
-                    subsamplingFactor = 4;
-                var w = tex.image.width / subsamplingFactor;
-                var h = tex.image.height / subsamplingFactor;
-                var geometry = new THREE.BufferGeometry();
-                var positions = [];
-                var uvs = [];
-                var colors = [];
-                var color = new THREE.Color();
 
-                for ( var i = 0; i < w; ++i){
+            navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices)
+                .catch(error => {
+                    console.log('enumerateDevices() error: ', error);
+                });
 
-                    for ( var j = 0; j < h; ++j){
-                       
-                        positions.push(Math.random(), Math.random(), Math.random());
-                        uvs.push(i/w, j/h);
-                        
+            // From the list of media devices available, set up the camera source <select>,
+            // then get a video stream from the default camera source.
+            function gotDevices(deviceInfos) {
+                for (var i = 0; i !== deviceInfos.length; ++i) {
+                    var deviceInfo = deviceInfos[i];
+                    //console.log('Found media input or output device: ', deviceInfo);
+                    if (deviceInfo.kind === 'videoinput') {
+                    console.log('Found media input or output device: ', deviceInfo);
                     }
                 }
-
-                geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-                geometry.setAttribute( 'uvs', new THREE.Float32BufferAttribute( uvs, 2 ) );
-
-                particles = new THREE.Points( geometry, shaderMaterialParticles );
-                particles.material.uniforms.originalImage.value = tex;
-                particles.position.z = -4;
-               // particles.position.y -= 0.5;
-                particles.frustumCulled = false;
-                particles.material.uniforms.width.value = w ;
-                particles.material.uniforms.height.value = h ;
-                scene.add( particles );
-                console.log(particles);
-                                   
-                animate();
-
             }
-        */
 
+            loadModel();
+            init();
+
+            async function getMedia(constraints) {
+            
+                if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
+                    try {
+                      var stream = await navigator.mediaDevices.getUserMedia(constraints) //,{video:true, audio:true});
+                      
+                      
+                      var track = stream.getVideoTracks();
+                      imageCapture = new ImageCapture(track[0]);
+                      console.log("MediaStreamTrack muted:", track[0].muted);
+
+                        /* use the stream */
+                    } catch(err) {
+                        /* handle the error */
+                        console.log('getUserMedia error: ', err);
+                    }
+                }
+            }
 
             function animate() {
 
@@ -432,52 +305,16 @@
 
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
-                if(net == null){
-                    console.log("loading model");
-                    net = await bodyPix.load(
-                    {
-                        architecture: 'MobileNetV1',
-                        outputStride: 16,
-                        multiplier: 0.75,
-                        quantBytes: 2,
-                        internalResolution: 'medium',
-                        segmentationThreshold: 0.7
-                        }
-                    );
-                }
-                /**
-                 * One of (see documentation below):
-                 *   - net.segmentPerson
-                 *   - net.segmentPersonParts
-                 *   - net.segmentMultiPerson
-                 *   - net.segmentMultiPersonParts
-                 * See documentation below for details on each method.
-                 */
-                var segmentation = await net.segmentPerson(img); // net.segmentPerson(img);
+
+                var segmentation = await net.segmentPerson(img, {
+                    flipHorizontal: false,
+                    internalResolution: 'medium',
+                    segmentationThreshold: 0.7
+                }); 
                 console.log(segmentation);
 
                 createTextureAndParticlesFromSegmentation(segmentation);
             }
-
-/*
-            // Create Data texture using the segmentation array result
-            function createTextureFromSegmentation(seg){
-                var size = seg.width * seg.height;
-                var data = new Uint8Array( 3 * size );
-
-                for ( var i = 0; i < size; i ++ ) {
-                    var stride = i * 3;
-                    data[ stride ] = seg.data[i] * 255;
-                    data[ stride + 1 ] = seg.data[i];
-                    data[ stride + 2 ] = seg.data[i];
-                }
-                textureSegmentation = new THREE.DataTexture( data, seg.width, seg.height, THREE.RGBFormat );
-                textureSegmentation.flipY = true;
-                time = 0;
-                particles.material.uniforms.time.value = time ;
-                particles.material.uniforms.depthMap.value = textureSegmentation;
-            }
-*/
 
             // Create Data texture using the segmentation array result AND THE PARTICLES (only on people)
             function createTextureAndParticlesFromSegmentation(seg){
