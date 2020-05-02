@@ -192,7 +192,8 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    textureOriginal = new THREE.Texture(canvas);
+                    textureOriginal = new THREE.Texture();
+                    textureOriginal = canvas;
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
                     loadAndPredict(textureOriginal.image);
@@ -269,26 +270,7 @@
                 geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
                 geometry.setAttribute( 'uvs', new THREE.Float32BufferAttribute( uvs, 2 ) );
 
-                var uniforms = {
-                    optionMode: {value: 1},
-                    userPos: {value: camera.position},
-                    width: {value: 1},
-                    height: {value: 1},
-                    time: {value: time},
-                    originalImage: { value: textureOriginal },
-                    depthMap: { value: textureDepthMap}
-                };
-
-                var shaderMaterialParticles1 = new THREE.ShaderMaterial({
-                    uniforms: uniforms,
-                    vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
-                    fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
-                    depthTest: false,
-                    transparent: true,
-                    vertexColors: true
-                });
-
-                particles = new THREE.Points( geometry, shaderMaterialParticles1 );
+                particles = new THREE.Points( geometry, shaderMaterialParticles );
                 particles.material.uniforms.originalImage.value = textureOriginal;
                 particles.position.z = -4;
   
