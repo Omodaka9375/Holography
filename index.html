@@ -192,10 +192,17 @@
             }
 
             function grabFrame() {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    var element = document.getElementById("canvas");
+                    //If it isn't "undefined" and it isn't "null", then it exists.
+                    if(typeof(element) != 'undefined' && element != null){
+                        element.parentNode.removeChild(element);
+                    }
+
+                    const ctx = document.createElement('canvas').getContext('2d');
+                    document.body.appendChild(ctx.canvas);
+                    ctx.canvas.width = video.videoWidth;
+                    ctx.canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0, ctx.canvas.width, ctx,canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
