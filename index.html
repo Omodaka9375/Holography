@@ -12,6 +12,7 @@
     </head>
   
     <body>  
+        <canvas>
 
         <div class="containerV">
             <video video autoplay playsinline class="hidden"></video>     
@@ -230,7 +231,7 @@
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     //console.log('Grabbed frame:', imageBitmap);
-                    var canvas = document.createElement('canvas');
+                    var canvas = document.getElementById('canvas');
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
@@ -533,6 +534,6 @@
 
         </script>
 
-
+</canvas>
     </body>
 </html>
