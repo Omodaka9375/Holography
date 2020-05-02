@@ -8,7 +8,7 @@ var ARButton = {
 
 			function onSessionStarted( session ) {
 				session.addEventListener( 'end', onSessionEnded );
-				renderer.xr.setReferenceSpaceType( 'local' );
+				renderer.xr.setReferenceSpaceType( 'viewer' );
 				renderer.xr.setSession( session );
 				button.textContent = 'STOP AR';
 				currentSession = session;
