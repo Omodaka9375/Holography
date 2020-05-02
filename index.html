@@ -189,7 +189,7 @@
             }; */
 
             constraints = {
-                    video: {facingMode:{ exact: 'environment'}} //deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
+                    video: {video: {facingMode:'environment'}} //deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(gotStream)
