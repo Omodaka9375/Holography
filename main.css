@@ -40,9 +40,9 @@ canvas {
 	margin-top: 42px;
 }
 .red-square {
-	background-color: #FF4136;
+	background-color: rgb(67, 54, 255);
 	width: 300px;
-	height: 300px;
+	height: 250px;
 	position: absolute;
 	left: 50%;
 	top: 50%;
