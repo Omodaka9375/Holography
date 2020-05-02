@@ -261,7 +261,7 @@
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
-                const  container = document.getElementById( 'canvas' );
+                let  container = document.getElementById( 'canvas' );
                 container.appendChild( renderer.domElement );
                 document.body.appendChild( ARButton.createButton( renderer ) );
                 
