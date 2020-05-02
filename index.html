@@ -10,24 +10,11 @@
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0/dist/body-pix.min.js"></script> 
 
     </head>
-    
-    
-   
-
   
     <body>  
 
         <div class="containerV">
-            <video video autoplay playsinline class="hidden">
-            </video>
-            <div class="red-square"  style="display: none;">
-                <div class="overlay">
-                    <label for="videoSource">Choose your camera: </label><select id="videoSource"></select>
-                    <p>When in AR mode, create an hologram by looking at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
-                    <div class="linkG"><p><b><a href="https://github.com/nosy-b/holography">https://github.com/nosy-b/holography</a></b></p></div>
-                </div>
-            </div>
-           
+            <video video autoplay playsinline class="hidden"></video>     
         </div>
         <div id="container"></div>
 
@@ -207,8 +194,7 @@
             }; */
 
             constraints = {
-                    video: {facingMode:{ exact: 'environment'}},//deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
-                    audio: false
+                    video: {facingMode:{ exact: 'environment'}} //deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
                 };
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(gotStream)
