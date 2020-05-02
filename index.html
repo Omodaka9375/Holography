@@ -194,7 +194,7 @@
             function grabFrame() {
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0, ctx.canvas.width, ctx.canvas.height);
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
