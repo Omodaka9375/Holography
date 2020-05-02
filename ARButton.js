@@ -20,11 +20,11 @@ var ARButton = {
 				currentSession = null;
 			}
 
-			button.style.display = '';
+			button.style.display = 'table';
+			button.style.margin = '0 auto'
 			button.style.cursor = 'pointer';
 			button.style.left = 'calc(50% - 50px)';
 			button.style.width = '200px';
-			button.style.textAlign = 'center'
 			button.textContent = 'POINT TO PERSON AND TAP';
 
 			button.onmouseenter = function () {
