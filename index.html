@@ -12,8 +12,9 @@
     <body>  
         <div class="content">
         <video video autoplay playsinline class="hidden"></video>
-        </div>
         <div id="container"></div>
+        </div>
+        
 
         <script type="x-shader/x-vertex" id="vertexshaderParticle">
             uniform sampler2D originalImage;
@@ -212,22 +213,15 @@
             }
 
             function grabFrame() {
-            //    imageCapture.grabFrame().then(function(imageBitmap){
-                    //console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.createElement('canvas');
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
-
                     video.hidden = true;
                     loadAndPredict(textureOriginal.image);
-             //   }).catch(function(error) {
-             //       console.log('grabFrame() error: ', error);
-             //   });
             }
 
             function onSelect() { grabFrame() }
@@ -307,7 +301,7 @@
                 particles = new THREE.Points( geometry, shaderMaterialParticles );
                 particles.material.uniforms.originalImage.value = textureOriginal;
                 particles.position.z = -4;
-                // particles.position.y -= 0.5;
+  
                 particles.frustumCulled = false;
                 particles.material.uniforms.width.value = w ;
                 particles.material.uniforms.height.value = h ;
