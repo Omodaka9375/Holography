@@ -232,7 +232,7 @@
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     //console.log('Grabbed frame:', imageBitmap);
-                    var canvas = document.getElementById('canvas');
+                    const canvas = document.getElementById('canvas');
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
