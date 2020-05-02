@@ -173,12 +173,12 @@
                     track.stop();
                     });
                 }
-
-                var constraints = { video: { facingMode: { exact: 'environment'}}}
-                getMedia(constraints);
+                getMedia();
             }
             
-            async function getMedia(constraints) {
+            async function getMedia() {
+                var constraints = { video: { facingMode: { exact: 'environment'}}}
+
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
                         var stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -193,12 +193,11 @@
 
             function grabFrame() {
                 var element = document.getElementById("canvas");
-                video.srcObject = mediaStream;
                 var canvas = null;
                     //If it isn't "undefined" and it isn't "null", then it exists.
                     if(typeof(element) != 'undefined' && element != null){
                         canvas = element;
-                    } else{
+                    } else {
                         canvas = document.createElement('canvas');
                     }
                     
@@ -213,7 +212,7 @@
                     loadAndPredict(textureOriginal.image);
             }
 
-            function onSelect() { grabFrame() }
+            function onSelect() { grabFrame(); }
 
             function animate() { renderer.setAnimationLoop( render ); }
 
@@ -246,10 +245,8 @@
                 var segmentation = await net.segmentPerson(img);
                 createTextureAndParticlesFromSegmentation(segmentation);
             }
-
             // Create Data texture using the segmentation array result AND THE PARTICLES (only on people)
             function createTextureAndParticlesFromSegmentation(seg){
-                
                 if(particles) scene.remove(particles);
 
                 var size = seg.width * seg.height;
@@ -303,12 +300,6 @@
                 console.log("Particles count: ", nbParticles);                
                 animate();
             }
-
-            window.addEventListener("hashchange", function(e) {
-                if(particles) scene.remove(particles);
-                init();
-            })
-
             loadModel();
             init(); 
         </script>
