@@ -172,12 +172,6 @@
                 for (var i = 0; i !== deviceInfos.length; ++i) {
                     var deviceInfo = deviceInfos[i];
                     console.log('Found media input or output device: ', deviceInfo);
-                    var option = document.createElement('option');
-                    option.value = deviceInfo.deviceId;
-                    if (deviceInfo.kind === 'videoinput') {
-                    option.text = deviceInfo.label || 'Camera ' + (videoSelect.length + 1);
-                    videoSelect.appendChild(option);
-                    }
                 }
             }
 
