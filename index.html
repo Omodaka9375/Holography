@@ -157,10 +157,7 @@
                 });
 
                 controller = renderer.xr.getController( 0 );
-                controller.addEventListener( 'select', (e) => { 
-                        e.stopPropagation();
-                        onSelect ();
-                    });
+                controller.addEventListener( 'select',  onSelect );
                 scene.add( controller );  
 
                 getStream();
