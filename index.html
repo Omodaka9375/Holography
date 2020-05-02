@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link type="text/css" rel="stylesheet" href="main.css">
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2/dist/tf.min.js"> </script> 
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0/dist/body-pix.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0.5/dist/body-pix.min.js"></script> 
     </head>
     <body>  
         <div class="content">
@@ -115,16 +115,14 @@
 
             async function loadModel(){
                 // Load the model
-                net = await bodyPix.load(
-                    {
+                net = await bodyPix.load({
                         architecture: 'MobileNetV1',
                         outputStride: 16,
                         multiplier: 0.75,
                         quantBytes: 2,
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7
-                    }
-                );
+                });
             }
 
             function init() {
@@ -183,7 +181,7 @@
             async function getMedia(constraints) {
                 if('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices){
                     try {
-                        var stream = await navigator.mediaDevices.getUserMedia(constraints)
+                        var stream = await navigator.mediaDevices.getUserMedia(constraints);
                         mediaStream = stream;
                         video.srcObject = stream;
                         video.classList.remove('hidden');
@@ -196,7 +194,14 @@
             }
 
             function grabFrame() {
-                    var canvas = document.createElement('canvas');
+                var element = document.getElementById("canvas");
+                var canvas = null
+                    //If it isn't "undefined" and it isn't "null", then it exists.
+                    if(typeof(element) != 'undefined' && element != null){
+                        canvas = element;
+                    } else{
+                        canvas = document.createElement('canvas');
+                    }
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
