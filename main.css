@@ -42,7 +42,7 @@ canvas {
 .square {
 	background-color: rgb(67, 54, 255);
 	width: 300px;
-	height: 250px;
+	height: 300px;
 	position: absolute;
 	left: 50%;
 	top: 50%;
