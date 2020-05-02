@@ -192,8 +192,8 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    textureOriginal = new THREE.Texture();
-                    textureOriginal = canvas;
+                    textureOriginal = null;
+                    textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
                     loadAndPredict(textureOriginal.image);
