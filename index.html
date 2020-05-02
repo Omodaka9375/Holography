@@ -279,7 +279,7 @@
                     depthMap: { value: textureDepthMap}
                 };
 
-                shaderMaterialParticles1 = new THREE.ShaderMaterial({
+                var shaderMaterialParticles1 = new THREE.ShaderMaterial({
                     uniforms: uniforms,
                     vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
                     fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
