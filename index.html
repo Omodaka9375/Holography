@@ -218,7 +218,7 @@
             // display this with a canvas element.
             function grabFrame() {
 
-                imageCapture.grabFrame().then(function(imageBitmap) {
+            //    imageCapture.grabFrame().then(function(imageBitmap){
                     //console.log('Grabbed frame:', imageBitmap);
                     var canvas = document.getElementById('canvas');
                     var ctx = canvas.getContext('2d');
@@ -233,9 +233,9 @@
                     loadAndPredict(textureOriginal.image);
                     
                    
-                }).catch(function(error) {
-                    console.log('grabFrame() error: ', error);
-                });
+             //   }).catch(function(error) {
+             //       console.log('grabFrame() error: ', error);
+             //   });
             }
 
 
