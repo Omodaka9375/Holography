@@ -220,8 +220,7 @@
             async function loadAndPredict(img) {
                 if(net == null){
                     console.log("loading model");
-                    net = await bodyPix.load(
-                    {
+                    net = await bodyPix.load({
                         architecture: 'MobileNetV1',
                         outputStride: 16,
                         multiplier: 0.50,
@@ -238,7 +237,7 @@
                  *   - net.segmentMultiPersonParts
                  * See documentation below for details on each method.
                  */
-                var segmentation = await net.segmentPerson(img); // net.segmentPerson(img);
+                var segmentation = await net.segmentPerson(img);
                 createTextureAndParticlesFromSegmentation(segmentation);
             }
 
@@ -265,7 +264,6 @@
                     data[ stride ] = seg.data[i] * 255;
                     data[ stride + 1 ] = seg.data[i];
                     data[ stride + 2 ] = seg.data[i];
-
                     // Particles part. We test if People or not to create a particle
                     if(seg.data[i] > 0){
                         if(nAdded % subsamplingFactor == 0){
