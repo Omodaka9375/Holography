@@ -12,13 +12,11 @@
     </head>
   
     <body>  
-        <canvas></canvas>
-
-        <div class="containerV">
+        <canvas>
+        <div>
             <video video autoplay playsinline class="hidden"></video>     
         </div>
-        <div id="container"></div>
-
+    </canvas>
         <script type="x-shader/x-vertex" id="vertexshaderParticle">
             uniform sampler2D originalImage;
             uniform sampler2D depthMap;
@@ -263,7 +261,7 @@
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
-                var container = document.getElementById( 'container' );
+                const  container = document.getElementById( 'canvas' );
                 container.appendChild( renderer.domElement );
                 document.body.appendChild( ARButton.createButton( renderer ) );
                 
