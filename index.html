@@ -193,9 +193,8 @@
                     }
                 }
             }
-            var i=0;
+
             function grabFrame() {
-                if (i<=0){
                     var canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');          
                     canvas.width = video.videoWidth;
@@ -204,13 +203,17 @@
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
+                    i++;
                     loadAndPredict(textureOriginal.image);
-                } else {
-                    window.location.reload();
-                }
             }
 
-            function onSelect() { grabFrame(); }
+            var i=0;
+            function onSelect() { 
+                if(i>=0)
+                    grabFrame();
+                else
+                window.location.reload(); 
+            }
 
             function animate() { renderer.setAnimationLoop( render ); }
 
