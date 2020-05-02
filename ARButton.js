@@ -20,8 +20,7 @@ var ARButton = {
 				currentSession = null;
 			}
 
-			button.style.display = 'table';
-			button.style.margin = '0 auto'
+			button.style.display = '';
 			button.style.cursor = 'pointer';
 			button.style.left = 'calc(50% - 50px)';
 			button.style.width = '200px';
