@@ -193,6 +193,7 @@
 
             function grabFrame() {
                     var element = document.getElementById("canvas");
+ 
                     //If it isn't "undefined" and it isn't "null", then it exists.
                     if(typeof(element) != 'undefined' && element != null){
                         element.parentNode.removeChild(element);
@@ -202,7 +203,7 @@
                     document.body.appendChild(ctx.canvas);
                     ctx.canvas.width = video.videoWidth;
                     ctx.canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0, ctx.canvas.width, ctx,canvas.height);
+                    canvas.getContext('2d').drawImage(video, 0, 0, ctx.canvas.width, ctx.canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
