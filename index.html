@@ -5,7 +5,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link type="text/css" rel="stylesheet" href="main.css">
-        
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2/dist/tf.min.js"> </script> 
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0/dist/body-pix.min.js"></script> 
     </head>
@@ -14,8 +13,6 @@
         <video video autoplay playsinline class="hidden"></video>
         </div>
         <div id="container"></div>
-        
-
         <script type="x-shader/x-vertex" id="vertexshaderParticle">
             uniform sampler2D originalImage;
             uniform sampler2D depthMap;
@@ -35,8 +32,7 @@
                 return  (r * 0.3) + (g * 0.59) + (b * 0.11);
             }
 
-            void main() {
-                
+            void main() {   
                 vUv = uvs;
                 float ratio = height/width;
                 gl_PointSize = 19.;
@@ -58,7 +54,6 @@
                 interpolatedPos += (position / 60.) * (sin(position.y * time * 20.) * 2. )  / time; 
                 // interpolatedPos += (position / 60.) * (position.y + sin(time * 0.2 * M_PI ) ); 
                  gl_PointSize +=  4. * sin(uvs.y + time * 0.5 * M_PI) ; 
-                
 
                 if(optionMode == 1){  // Mode for particles to circle at bottom
                     if(uvs.y < 0.1) {
@@ -72,9 +67,7 @@
                  
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(interpolatedPos, 1.0 );
             }
-
         </script>
-
         <script type="x-shader/x-fragment" id="fragmentshaderParticle">
             #extension GL_EXT_shader_texture_lod : enable
             #extension GL_OES_standard_derivatives : enable
@@ -86,7 +79,6 @@
             varying float vDepth;
 
             void main() {
-
                 vec4 pointSpriteTexture = texture2D( originalImage, vUv );
                 vec4 earthMap = texture2D( depthMap, vUv ) ;
                 gl_FragColor =  pointSpriteTexture;
@@ -112,7 +104,6 @@
             var shaderMaterialParticles;
             var textureSegmentation;
             var subsamplingFactor = 1;
-
             var textureOriginal = new THREE.Texture(); 
             var textureDepthMap = new THREE.Texture();
             // Photo
@@ -137,7 +128,7 @@
             }
 
             function init() {
-                camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+                camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0, 1000 );
                 scene = new THREE.Scene();
                 renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
                 renderer.xr.enabled = true;
@@ -162,7 +153,6 @@
                     uniforms: uniforms,
                     vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
                     fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
-                    //blending: THREE.AdditiveBlending,
                     depthTest: false,
                     transparent: true,
                     vertexColors: true
@@ -175,10 +165,8 @@
                 controller = renderer.xr.getController( 0 );
                 controller.addEventListener( 'select', onSelect );
                 scene.add( controller );    
-                
                 getStream();
             }
-
 
             // Get a video stream from rear camera source.
             function getStream() {
@@ -188,9 +176,7 @@
                     });
                 }
 
-                var constraints = {
-                        video: { facingMode: { exact: 'environment'}}
-                }
+                var constraints = { video: { facingMode: { exact: 'environment'}}}
                 getMedia(constraints);
             }
             
@@ -203,12 +189,9 @@
                         video.classList.remove('hidden');
                         const track = stream.getVideoTracks()[0];
                         imageCapture = new ImageCapture(track);
-                        /* use the stream */
                     } catch(err) {
-                        /* handle the error */
                         console.log('getUserMedia error: ', err);
                     }
-
                 }
             }
 
@@ -225,7 +208,9 @@
             }
 
             function onSelect() { grabFrame() }
+
             function animate() { renderer.setAnimationLoop( render ); }
+
 			function render() {
                 time += 0.01;
                 particles.material.uniforms.time.value = time ;
@@ -242,9 +227,8 @@
                         multiplier: 0.50,
                         quantBytes: 2,
                         internalResolution: 'medium',
-                        segmentationThreshold: 0.7
-                        }
-                    );
+                        segmentationThreshold: 0.7 
+                    });
                 }
                 /**
                  * One of (see documentation below):
@@ -311,15 +295,12 @@
                 time = 0;
                 particles.material.uniforms.time.value = time ;
                 particles.material.uniforms.depthMap.value = textureSegmentation;
-                
                 scene.add( particles );
                 console.log("Particles count: ", nbParticles);                
                 animate();
             }
-
             loadModel();
             init(); 
-
         </script>
     </body>
 </html>
