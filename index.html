@@ -156,12 +156,11 @@
                     vertexColors: true
                 });
 
-                var geometryC = new THREE.BoxGeometry( 0.1,0.1,0.1 );
-                var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
-                var cube = new THREE.Mesh( geometryC, materialC );
-
                 controller = renderer.xr.getController( 0 );
-                controller.addEventListener( 'select', onSelect );
+                controller.addEventListener( 'select', (e) => { 
+                        e.stopPropagation();
+                        onSelect ();
+                    });
                 scene.add( controller );  
 
                 getStream();
@@ -193,11 +192,9 @@
 
             function grabFrame() {
                     var canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
+                    const ctx = canvas.getContext('2d');          
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                    ctx.clearRect(0,0,canvas.width,canvas.height);
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
