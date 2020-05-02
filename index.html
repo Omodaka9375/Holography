@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Holograms</title>
+		<title>Instant Holograph</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link type="text/css" rel="stylesheet" href="main.css">
@@ -202,12 +202,7 @@
             function getCapabilities() {
             imageCapture.getPhotoCapabilities().then(function(capabilities) {
                 console.log('Camera capabilities:', capabilities);
-/*                 if (capabilities.zoom.max > 0) {
-                zoomInput.min = capabilities.zoom.min;
-                zoomInput.max = capabilities.zoom.max;
-                zoomInput.value = capabilities.zoom.current;
-                zoomInput.classList.remove('hidden');
-                } */
+
             }).catch(function(error) {
                 console.log('getCapabilities() error: ', error);
             });
@@ -279,23 +274,10 @@
                 var geometryC = new THREE.BoxGeometry( 0.1,0.1,0.1 );
                 var materialC = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide, transparent:true, opacity:0.3} );
                 var cube = new THREE.Mesh( geometryC, materialC );
-               // scene.add( cube );
 
-                //loadTextures();
-
-
-                // grabFrame and show extracte silouhette
                 function onSelect() {
-                    // time = 0;
+
                     grabFrame();
-                    /*
-                    var geometry = new THREE.CylinderBufferGeometry( 0, 0.05, 0.2, 32 ).rotateX( Math.PI / 2 );
-                    var material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random() } );
-                    var mesh = new THREE.Mesh( geometry, material );
-                    mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
-                    mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
-                    scene.add( mesh );
-                    */
                     
                 }
 
@@ -308,50 +290,6 @@
 
 
             init();
-
-       /*         
-            // Create particles uniformly for an image
-            function createParticles(tex){
-
-                console.log(tex.image.width);
-                if(tex.image.width > 1920 || tex.image.height > 1920)
-                    subsamplingFactor = 4;
-                var w = tex.image.width / subsamplingFactor;
-                var h = tex.image.height / subsamplingFactor;
-                var geometry = new THREE.BufferGeometry();
-                var positions = [];
-                var uvs = [];
-                var colors = [];
-                var color = new THREE.Color();
-
-                for ( var i = 0; i < w; ++i){
-
-                    for ( var j = 0; j < h; ++j){
-                       
-                        positions.push(Math.random(), Math.random(), Math.random());
-                        uvs.push(i/w, j/h);
-                        
-                    }
-                }
-
-                geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
-                geometry.setAttribute( 'uvs', new THREE.Float32BufferAttribute( uvs, 2 ) );
-
-                particles = new THREE.Points( geometry, shaderMaterialParticles );
-                particles.material.uniforms.originalImage.value = tex;
-                particles.position.z = -4;
-               // particles.position.y -= 0.5;
-                particles.frustumCulled = false;
-                particles.material.uniforms.width.value = w ;
-                particles.material.uniforms.height.value = h ;
-                scene.add( particles );
-                console.log(particles);
-                                   
-                animate();
-
-            }
-        */
-
 
             function animate() {
 
@@ -379,7 +317,7 @@
                     {
                         architecture: 'MobileNetV1',
                         outputStride: 16,
-                        multiplier: 0.75,
+                        multiplier: 0.50,
                         quantBytes: 2,
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7
