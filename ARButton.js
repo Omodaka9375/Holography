@@ -16,15 +16,15 @@ var ARButton = {
 
 			function onSessionEnded( /*event*/ ) {
 				currentSession.removeEventListener( 'end', onSessionEnded );
-				button.textContent = 'START AR';
+				button.textContent = 'POINT TO PERSON AND TAP';
 				currentSession = null;
 			}
 
 			button.style.display = '';
 			button.style.cursor = 'pointer';
 			button.style.left = 'calc(50% - 50px)';
-			button.style.width = '100px';
-			button.textContent = 'START AR';
+			button.style.width = '200px';
+			button.textContent = 'POINT TO PERSON AND TAP';
 
 			button.onmouseenter = function () {
 				button.style.opacity = '1.0';
