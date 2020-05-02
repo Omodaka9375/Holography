@@ -14,7 +14,7 @@
         <div class="square" style="display: block;">
             <div class="overlay">
                 <p>Point at a person/face/photo, and take a photo. Once in AR, step back and tap to spawn a hologram on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
-                <button id="button" onclick="closeButton()">[close]</button>
+                <button id="button" onclick="closeButton();">[close]</button>
                 <hr>
                 <div class="linkG"><p><b><a href="https://github.com/Omodaka9375/Holography">https://github.com/Omodaka9375/Holography</a></b></p></div>
             </div>
@@ -218,7 +218,7 @@
 
             function closeButton(){
                 var popup = document.getElementsByClassName('square');
-                popup.style.display = 'none';
+                popup.style.visibility = 'hidden';
 
 
             }
