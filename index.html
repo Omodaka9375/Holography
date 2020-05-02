@@ -11,9 +11,11 @@
     <body>  
         <div class="content">
         <video video autoplay playsinline class="hidden"></video>
-        <div class="red-square">
+        <div class="square" style="display: block;">
             <div class="overlay">
-                <p>When in AR mode, create a hologram by pointing at a person/face/photo and tap on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
+                <p>Point at a person/photo, take a photo. Once in AR, step back and tap to spawn a hologram on the screen, it should appear gently. (Beware of camera framing, not too close)</p>
+                <button onclick="closeButton()">[close]</button>
+                <hr>
                 <div class="linkG"><p><b><a href="https://github.com/Omodaka9375/Holography">https://github.com/Omodaka9375/Holography</a></b></p></div>
             </div>
         </div>
@@ -138,7 +140,7 @@
                 renderer.setPixelRatio( window.devicePixelRatio );
                 renderer.setSize( window.innerWidth, window.innerHeight );
 
-                let  container = document.getElementById( 'container' );
+                var  container = document.getElementById( 'container' );
                 container.appendChild( renderer.domElement );
                 document.body.appendChild( ARButton.createButton( renderer ) );
 
@@ -149,7 +151,7 @@
                     height: {value: 1},
                     time: {value: time},
                     originalImage: { value: textureOriginal },
-                    depthMap: { value: textureDepthMap}
+                    depthMap: { value: textureDepthMap }
                 };
 
                 shaderMaterialParticles = new THREE.ShaderMaterial({
@@ -198,7 +200,6 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    textureOriginal = null;
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
@@ -213,6 +214,13 @@
                 time += 0.01;
                 particles.material.uniforms.time.value = time ;
                 renderer.render( scene, camera );
+            }
+
+            function closeButton(){
+                var popup = document.querySelector('square');
+                popup.style.display = 'none';
+
+
             }
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
