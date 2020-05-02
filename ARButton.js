@@ -16,7 +16,7 @@ var ARButton = {
 
 			function onSessionEnded( /*event*/ ) {
 				currentSession.removeEventListener( 'end', onSessionEnded );
-				button.textContent = 'POINT TO PERSON AND TAP';
+				button.textContent = 'START AR';
 				currentSession = null;
 			}
 
@@ -24,7 +24,7 @@ var ARButton = {
 			button.style.cursor = 'pointer';
 			button.style.left = 'calc(50% - 50px)';
 			button.style.width = '100px';
-			button.textContent = 'Start AR';
+			button.textContent = 'START AR';
 
 			button.onmouseenter = function () {
 				button.style.opacity = '1.0';
