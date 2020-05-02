@@ -224,17 +224,18 @@
             }
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
-                if(net == null){
+              //  if(net == null){
+                    net = null;
                     console.log("loading model");
                     net = await bodyPix.load({
                         architecture: 'MobileNetV1',
                         outputStride: 16,
-                        multiplier: 0.50,
+                        multiplier: 0.75,
                         quantBytes: 2,
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7 
                     });
-                }
+               // }
                 /**
                  * One of (see documentation below):
                  *   - net.segmentPerson
