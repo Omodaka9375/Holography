@@ -297,6 +297,12 @@
                 console.log("Particles count: ", nbParticles);                
                 animate();
             }
+
+            window.addEventListener("hashchange", function(e) {
+                if(particles) scene.remove(particles);
+                init();
+            })
+
             loadModel();
             init(); 
         </script>
