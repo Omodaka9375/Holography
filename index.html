@@ -309,39 +309,6 @@
 
             init();
 
-
-            function loadTextures(){
-
-                var loader = new THREE.TextureLoader();
-                // load a resource
-                loader.load(
-                    // resource URL
-                    textureName,
-
-                    // onLoad callback
-                    function ( texture ) {
-                        // in this example we create the material when the texture is loaded
-                        var material = new THREE.MeshBasicMaterial( {
-                            map: texture
-                        } );
-
-                        //createParticles(texture);
-                        loadAndPredict(texture.image);
-
-                    },
-
-                    // onProgress callback currently not supported
-                    undefined,
-
-                    // onError callback
-                    function ( err ) {
-                        console.error( 'An error happened. Fuckkk not agaiiin!' );
-                    }
-                );
- 
-
-            }
-
        /*         
             // Create particles uniformly for an image
             function createParticles(tex){
@@ -489,6 +456,8 @@
                             uvs.push(u, 1. - v);  // flip y
                         }
                         nAdded++;
+                    } else {
+                        console.log('No people detected.')
                     }
                 }
 
