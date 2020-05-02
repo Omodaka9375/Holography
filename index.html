@@ -107,7 +107,6 @@
             var textureOriginal = new THREE.Texture(); 
             var textureDepthMap = new THREE.Texture();
             // Photo
-            var imageCapture;
             var mediaStream;
             var controller;
             var video = document.querySelector('video');
@@ -270,7 +269,26 @@
                 geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
                 geometry.setAttribute( 'uvs', new THREE.Float32BufferAttribute( uvs, 2 ) );
 
-                particles = new THREE.Points( geometry, shaderMaterialParticles );
+                var uniforms = {
+                    optionMode: {value: 1},
+                    userPos: {value: camera.position},
+                    width: {value: 1},
+                    height: {value: 1},
+                    time: {value: time},
+                    originalImage: { value: textureOriginal },
+                    depthMap: { value: textureDepthMap}
+                };
+
+                shaderMaterialParticles1 = new THREE.ShaderMaterial({
+                    uniforms: uniforms,
+                    vertexShader: document.getElementById( 'vertexshaderParticle' ).textContent,
+                    fragmentShader: document.getElementById( 'fragmentshaderParticle' ).textContent,
+                    depthTest: false,
+                    transparent: true,
+                    vertexColors: true
+                });
+
+                particles = new THREE.Points( geometry, shaderMaterialParticles1 );
                 particles.material.uniforms.originalImage.value = textureOriginal;
                 particles.position.z = -4;
   
