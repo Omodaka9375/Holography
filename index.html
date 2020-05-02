@@ -130,15 +130,8 @@
             var constraints;
             var imageCapture;
             var mediaStream;
-            
             var controller;
-
-            var grabFrameButton = document.querySelector('button#grabFrame');
-            var videoSelect = document.querySelector('select#videoSource');
             var video = document.querySelector('video');
-            //grabFrameButton.onclick = grabFrame;
-           // videoSelect.onchange = getStream;
-
             var net; // Model for inference
 
             async function loadModel(){
@@ -181,14 +174,11 @@
                 track.stop();
                 });
             }
-          //  var videoSource = videoSelect.value;
-/*             constraints = {
-                video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-            }; */
 
             constraints = {
                     video: { facingMode: { exact: 'environment'}} //deviceId: videoSource ? {exact: videoSource} : undefined, facingMode:{ exact: 'environment'}}
-                }
+            }
+
             navigator.mediaDevices.getUserMedia(constraints)
                 .then(gotStream)
                 .catch(error => {
@@ -230,7 +220,7 @@
 
                 imageCapture.grabFrame().then(function(imageBitmap) {
                     //console.log('Grabbed frame:', imageBitmap);
-                    const canvas = document.getElementById('canvas');
+                    var canvas = document.getElementById('canvas');
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
