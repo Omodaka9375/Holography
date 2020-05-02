@@ -162,10 +162,10 @@
 
                 controller = renderer.xr.getController( 0 );
                 controller.addEventListener( 'select', onSelect );
-                scene.add( controller );    
+                scene.add( controller );  
+
                 getStream();
             }
-
             // Get a video stream from rear camera source.
             function getStream() {
                 if (mediaStream) {
@@ -193,11 +193,9 @@
 
             function grabFrame() {
                     var canvas = document.createElement('canvas');
-                    var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
