@@ -185,8 +185,6 @@
                         mediaStream = stream;
                         video.srcObject = stream;
                         video.classList.remove('hidden');
-                       // const track = stream.getVideoTracks()[0];
-                       // imageCapture = new ImageCapture(track);
                     } catch(err) {
                         console.log('getUserMedia error: ', err);
                     }
@@ -195,18 +193,20 @@
 
             function grabFrame() {
                 var element = document.getElementById("canvas");
-                var canvas = null
+                video.srcObject = mediaStream;
+                var canvas = null;
                     //If it isn't "undefined" and it isn't "null", then it exists.
                     if(typeof(element) != 'undefined' && element != null){
                         canvas = element;
                     } else{
                         canvas = document.createElement('canvas');
                     }
+                    
                     var ctx = canvas.getContext('2d');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    textureOriginal = null;
+        
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
@@ -224,8 +224,7 @@
             }
             // Part TensorFlow https://github.com/tensorflow/tfjs-models/tree/master/body-pix
             async function loadAndPredict(img) {
-              //  if(net == null){
-                    net = null;
+                if(net == null){
                     console.log("loading model");
                     net = await bodyPix.load({
                         architecture: 'MobileNetV1',
@@ -235,7 +234,7 @@
                         internalResolution: 'medium',
                         segmentationThreshold: 0.7 
                     });
-               // }
+                }
                 /**
                  * One of (see documentation below):
                  *   - net.segmentPerson
