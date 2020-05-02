@@ -192,12 +192,12 @@
             }
 
             function grabFrame() {
-                    var canvas = document.getElementById('mycanvas');
+                    var canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                   // ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                     textureOriginal = new THREE.Texture(canvas);
                     textureOriginal.needsUpdate = true;
