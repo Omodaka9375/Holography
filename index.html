@@ -193,8 +193,9 @@
                     }
                 }
             }
-
+            i=0
             function grabFrame() {
+                if (i<=0){
                     var canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');          
                     canvas.width = video.videoWidth;
@@ -204,6 +205,9 @@
                     textureOriginal.needsUpdate = true;
                     video.hidden = true;
                     loadAndPredict(textureOriginal.image);
+                } else {
+                    window.location.reload();
+                }
             }
 
             function onSelect() { grabFrame(); }
