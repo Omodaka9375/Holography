@@ -7,7 +7,7 @@ Thank to https://twitter.com/AlexandreDevaux for original inspiration from: http
 
 ![![Youtube Demo Video](http://img.youtube.com/vi/VkoQecLPkS4/0.jpg)](https://www.youtube.com/watch?v=VkoQecLPkS4 "Youtube Demo Video")
 
-Live DEMO here: https://hologram-webxr.herokuapp.com/ (use mobile)
+Live DEMO here: https://hologram-webxr.herokuapp.com/ (android only)
 
 ## How to
 
