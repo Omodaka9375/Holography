@@ -32,7 +32,7 @@ This is a version that doesn't use ImageCapture, since grabFrame() was failing o
 - My phone doesn't support zoom either, but you can fiddle depth etc... with this in Init():
 - THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0, 1000 )
 - All this reduced size to 14mb (used to be 18mb)
-- It has the issue of reusing same segmentation image. So you need to refresh page to try another image (TODO)
+- It has the issue of reusing same segmentation image. So I refresh the page, for another try on different image (TODO)
 
 ### Dependencies
 
